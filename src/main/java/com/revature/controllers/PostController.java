@@ -42,8 +42,8 @@ public class PostController {
     {
         try
         {
-            System.out.println(post);
-            return ResponseEntity.ok(postService.addNewPost(post, user));
+        	Post postToReturn = postService.addNewPost(post, user);
+            return ResponseEntity.ok(postToReturn);
         }
         catch(Exception e)
         {
@@ -59,9 +59,9 @@ public class PostController {
         {
             postService.deletePost(post);
         }
-        catch(IllegalStateException illegalStateException)
+        catch(IllegalStateException e)
         {
-            System.out.println(illegalStateException.getMessage());
+            e.printStackTrace();
         }
     }
 

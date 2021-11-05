@@ -36,14 +36,18 @@ public class PostService {
 	public Post addNewPost(Post post, User user)
     {
         post.setAuthor(user);
-<<<<<<< HEAD
-        postRepository.saveAndFlush(post);
-=======
-        Profile profile = profileRepository.getProfileByUser(user);
+        Optional<Profile> optProfile = profileRepository.getProfileByUser(user);
+        Profile profile = null;
+        if(!optProfile.isPresent()) {
+        	profile = new Profile();
+        	profile.setUser(user);
+        	profileRepository.save(profile);
+        	System.out.println("Generating default profile! (Probably should never happen...)");
+        } else {
+        	profile = optProfile.get();
+        }
         post.setProfile(profile);
-        postRepository.save(post);
->>>>>>> 7499f38571af0de55e0f26925fd88ec4dba6c861
-        return post;
+        return postRepository.save(post);
     }
 
 	public void deletePost(Post post) {
